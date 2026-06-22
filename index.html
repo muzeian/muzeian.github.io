@@ -1995,12 +1995,14 @@
         const snapshotType = activeType;
         let photos = [];
 
-        if (data.photoFolder) {
+        // Use pre-listed photos from JSON first (most reliable on GitHub Pages)
+        if (data.photos && data.photos.length > 0) {
+          photos = data.photos.slice();
+        } else if (data.photo) {
+          photos.push(data.photo);
+        } else if (data.photoFolder) {
+          // Fallback: try directory scan (works on local dev, not GitHub Pages)
           photos = await scanPhotoFolder(data.photoFolder);
-        }
-        if (photos.length === 0) {
-          if (data.photo) photos.push(data.photo);
-          if (data.photos && data.photos.length > 0) photos = photos.concat(data.photos);
         }
 
         // Avoid race conditions if user moves to another item
