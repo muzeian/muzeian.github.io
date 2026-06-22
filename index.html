@@ -592,7 +592,7 @@
     @media (max-width: 600px) {
       #main-title-section { font-size: clamp(1.2rem, 8vw, 2.5rem); padding: 22px 0 16px 0; }
       #grid-container { grid-template-columns: repeat(2, 1fr); gap: 16px 8px; padding: 0 16px 40px 16px; }
-      .workshop-item .icon-img { width: 100px; height: 100px; }
+      .workshop-item .icon-img { width: 100%; max-width: 100px; height: auto; max-height: 100px; object-fit: contain; }
       .item-title { font-size: 10px; }
       .item-venue { font-size: 9px; }
 
@@ -1100,6 +1100,7 @@
       const t = e.touches[0];
       dragging = true;
       lastX = t.clientX; lastY = t.clientY;
+      mouseX = t.clientX; mouseY = t.clientY;
       touchStartX = t.clientX; touchStartY = t.clientY;
       isSwipe = false;
       velX = velY = 0;
