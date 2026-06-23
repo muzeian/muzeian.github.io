@@ -1352,28 +1352,30 @@
       const loader = new THREE.GLTFLoader();
       loader.setDRACOLoader(dracoLoader);
       
-      loader.load('beldos.glb', (gltf) => {
-        beldosModel = gltf.scene;
-        
-        // Center and scale the model
-        const box = new THREE.Box3().setFromObject(beldosModel);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.8 / maxDim; // Adjust scale to fit nicely inside the spike ball
-        beldosModel.scale.set(scale, scale, scale);
-        beldosModel.position.x = -center.x * scale;
-        beldosModel.position.y = -center.y * scale;
-        beldosModel.position.z = -center.z * scale;
-        
-        const wrapper = new THREE.Group();
-        wrapper.add(beldosModel);
-        threeScene.add(wrapper);
-        beldosModel = wrapper; // Use wrapper to rotate around center
-      }, undefined, (error) => {
-        console.error('Error loading beldos.glb:', error);
-      });
+      if (!isMobile) {
+        loader.load('beldos.glb', (gltf) => {
+          beldosModel = gltf.scene;
+          
+          // Center and scale the model
+          const box = new THREE.Box3().setFromObject(beldosModel);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 2.8 / maxDim; // Adjust scale to fit nicely inside the spike ball
+          beldosModel.scale.set(scale, scale, scale);
+          beldosModel.position.x = -center.x * scale;
+          beldosModel.position.y = -center.y * scale;
+          beldosModel.position.z = -center.z * scale;
+          
+          const wrapper = new THREE.Group();
+          wrapper.add(beldosModel);
+          threeScene.add(wrapper);
+          beldosModel = wrapper; // Use wrapper to rotate around center
+        }, undefined, (error) => {
+          console.error('Error loading beldos.glb:', error);
+        });
+      }
     }
 
     function resize() {
