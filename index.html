@@ -1326,9 +1326,15 @@
       threeCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
       threeCamera.position.z = 5;
 
-      threeRenderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true, antialias: true });
+      const isMobile = window.innerWidth < 768;
+      threeRenderer = new THREE.WebGLRenderer({ 
+        canvas: threeCanvas, 
+        alpha: true, 
+        antialias: !isMobile,
+        powerPreference: "high-performance"
+      });
       threeRenderer.setSize(window.innerWidth, window.innerHeight);
-      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      threeRenderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
 
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
       threeScene.add(ambientLight);
