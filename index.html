@@ -679,7 +679,7 @@
         <div id="main-title-artwork">ARTWORKS</div>
         <canvas id="poop-canvas"></canvas>
         <div id="artwork-canvas-el"></div>
-        <img id="bug" src="bug-walk.gif" alt="Bug">
+        <img id="bug" src="bug-walk.gif" alt="Bug" loading="lazy">
       </div>
     </section>
 
@@ -710,7 +710,7 @@
       <div id="project-container">
         
         <a href="https://awikworks.github.io/" target="_blank" rel="noopener noreferrer" class="workshop-item">
-          <img class="icon-img" src="project/awikworks.png" alt="Awikworks">
+          <img class="icon-img" src="project/awikworks.png" alt="Awikworks" loading="lazy">
           <div class="item-text">
             <div class="item-category">Electronics</div>
             <div class="item-title">Awikworks</div>
@@ -718,7 +718,7 @@
         </a>
 
         <a href="https://amprrrong.bandcamp.com/" target="_blank" rel="noopener noreferrer" class="workshop-item">
-          <img class="icon-img" src="project/amprrrong.png" alt="AMPRRRONG">
+          <img class="icon-img" src="project/amprrrong.png" alt="AMPRRRONG" loading="lazy">
           <div class="item-text">
             <div class="item-category">Noise</div>
             <div class="item-title">AMPRRRONG</div>
@@ -726,7 +726,7 @@
         </a>
 
         <a href="https://stafatorrentnet.github.io/" target="_blank" rel="noopener noreferrer" class="workshop-item">
-          <img class="icon-img" src="project/stafa.png" alt="Stafatorrentnet">
+          <img class="icon-img" src="project/stafa.png" alt="Stafatorrentnet" loading="lazy">
           <div class="item-text">
             <div class="item-category">Code</div>
             <div class="item-title">Stafatorrentnet</div>
@@ -758,8 +758,8 @@
             <div class="section-heading">News</div>
             
             <div id="news-photos-container">
-              <div class="news-photo"><img src="news/news-2023.jpg" alt="Jawa Pos"></div>
-              <div class="news-photo"><img src="news/Arsip Novart 2017..jpg" alt="Radar Malang"></div>
+              <div class="news-photo"><img src="news/news-2023.webp" alt="Jawa Pos" loading="lazy"></div>
+              <div class="news-photo"><img src="news/Arsip Novart 2017..webp" alt="Radar Malang" loading="lazy"></div>
             </div>
 
             <ul id="news-list" class="info-list">
@@ -1574,7 +1574,7 @@
         const el = document.createElement('div');
         el.className = 'artwork';
         el.innerHTML = `
-          <img class="icon-img" src="${data.icon}" alt="${data.title}">
+          <img class="icon-img" src="${data.icon}" alt="${data.title}" loading="lazy">
           <div class="text">${data.year}<br>${data.title}</div>
         `;
         canvasEl.appendChild(el);
