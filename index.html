@@ -89,8 +89,12 @@
       background: #FFFFFF; pointer-events: none; z-index: 1;
     }
     #c {
-      display: block; position: absolute; inset: 0; z-index: 2;
+      display: block; position: absolute; inset: 0; z-index: 3;
       width: 100%; height: 100%;
+    }
+    #three-canvas {
+      display: block; position: absolute; inset: 0; z-index: 2;
+      width: 100%; height: 100%; pointer-events: none;
     }
     #title-block {
       position: absolute; top: 50%; left: 50%;
@@ -774,6 +778,7 @@
     <!-- SECTION 1: HOMEPAGE (3D Canvas + Menu) -->
     <section id="homepage" class="page-section" style="padding-top:0;">
       <canvas id="bg-canvas"></canvas>
+      <canvas id="three-canvas"></canvas>
       <canvas id="c"></canvas>
       
       <div class="lang-container" style="position: absolute; top: 24px; right: 24px; z-index: 100;">
@@ -1157,6 +1162,9 @@
   <!-- ═══════════════════════════════════════════
        JAVASCRIPT SCRIPTS
        ═══════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
   <script>
     /* ══════════════════════════════════════
        TRANSLATION SYSTEM (SHARED)
@@ -1310,11 +1318,69 @@
     const flash = document.getElementById('flash');
     let W, H;
 
+    /* Three.js initialization */
+    let threeScene, threeCamera, threeRenderer, beldosModel;
+    function initThreeJS() {
+      const threeCanvas = document.getElementById('three-canvas');
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+      threeCamera.position.z = 5;
+
+      threeRenderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha: true, antialias: true });
+      threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      threeScene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(10, 20, 10);
+      threeScene.add(directionalLight);
+
+      const directionalLight2 = new THREE.DirectionalLight(0xff0000, 0.4);
+      directionalLight2.position.set(-10, -10, -10);
+      threeScene.add(directionalLight2);
+
+      const dracoLoader = new THREE.DRACOLoader();
+      dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
+      const loader = new THREE.GLTFLoader();
+      loader.setDRACOLoader(dracoLoader);
+      
+      loader.load('beldos.glb', (gltf) => {
+        beldosModel = gltf.scene;
+        
+        // Center and scale the model
+        const box = new THREE.Box3().setFromObject(beldosModel);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2.8 / maxDim; // Adjust scale to fit nicely inside the spike ball
+        beldosModel.scale.set(scale, scale, scale);
+        beldosModel.position.x = -center.x * scale;
+        beldosModel.position.y = -center.y * scale;
+        beldosModel.position.z = -center.z * scale;
+        
+        const wrapper = new THREE.Group();
+        wrapper.add(beldosModel);
+        threeScene.add(wrapper);
+        beldosModel = wrapper; // Use wrapper to rotate around center
+      }, undefined, (error) => {
+        console.error('Error loading beldos.glb:', error);
+      });
+    }
+
     function resize() {
       W = canvas.width = bgCvs.width = window.innerWidth;
       H = canvas.height = bgCvs.height = window.innerHeight;
+      if (threeCamera && threeRenderer) {
+        threeCamera.aspect = window.innerWidth / window.innerHeight;
+        threeCamera.updateProjectionMatrix();
+        threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      }
     }
     resize();
+    initThreeJS();
     window.addEventListener('resize', resize);
 
     function mulberry32(seed) {
@@ -1832,6 +1898,29 @@
       const rect = homepage.getBoundingClientRect();
       if (rect.bottom > 0) {
         draw3D();
+        
+        // Render Three.js scene
+        if (threeRenderer && threeScene && threeCamera) {
+          if (beldosModel) {
+            beldosModel.rotation.y = rotY;
+            beldosModel.rotation.x = rotX;
+            
+            // Audio reactive scale
+            if (playing) {
+              const { e } = getAudio();
+              let targetScale = 1.0;
+              if (mode === 'drone') targetScale = 1.0 + e * 0.15;
+              else if (mode === 'fm') targetScale = 1.0 + e * 0.25;
+              else if (mode === 'glitch') targetScale = 1.0 + e * 0.35;
+              else if (mode === 'noise') targetScale = 1.0 + e * 0.2;
+              
+              beldosModel.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+            } else {
+              beldosModel.scale.lerp(new THREE.Vector3(1, 1, 1), 0.05);
+            }
+          }
+          threeRenderer.render(threeScene, threeCamera);
+        }
       }
       requestAnimationFrame(loop3D);
     }
