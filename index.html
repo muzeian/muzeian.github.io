@@ -335,8 +335,8 @@
     }
     .strip-arrow:hover { background: #E3331F; color: #fff; border-color: #E3331F; }
     .strip-arrow:disabled { opacity: 0.2; cursor: default; }
-    #arrow-left { left: 0; }
-    #arrow-right { right: 0; }
+    #arrow-left, #exhibition-arrow-left { left: 0; }
+    #arrow-right, #exhibition-arrow-right { right: 0; }
 
     #photo-strip {
       display: grid; grid-template-rows: 1fr 1fr; grid-auto-flow: column;
@@ -375,6 +375,148 @@
     #project .workshop-item .item-category { font-size: 11px; letter-spacing: 0.2em; color: rgba(0,0,0,0.3); text-transform: uppercase; transition: color 0.2s ease; }
     #project .workshop-item .item-title { font-family: 'CooperHewitt-Semibold', sans-serif; font-size: 16px; letter-spacing: 0.06em; color: rgba(0,0,0,0.7); text-transform: uppercase; margin-top: 0; transition: color 0.2s ease; }
     #project .workshop-item:hover .item-category, #project .workshop-item:hover .item-title { color: #E3331F; }
+
+    /* ── SECTION 5.5: EXHIBITION ── */
+    #exhibition {
+      padding-top: 40px;
+      min-height: 100vh;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    #exhibition-wrap {
+      flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column;
+    }
+    #exhibition-scroll {
+      flex: 1; overflow-x: auto; overflow-y: hidden; 
+      scrollbar-width: none; -ms-overflow-style: none;
+      scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+      padding: 0 48px;
+    }
+    #exhibition-scroll::-webkit-scrollbar { display: none; }
+    
+    .exhibition-board-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px; 
+      width: max-content;
+      height: 100%;
+      padding-bottom: 24px;
+      padding-top: 24px;
+      justify-content: center;
+      flex: 1;
+    }
+    
+    .exhibition-year-row {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      flex: 1;
+      position: relative;
+    }
+    .exhibition-year-row::after {
+      content: '';
+      position: absolute;
+      top: 4.5rem;
+      left: -48px;
+      right: -48px;
+      height: 1px;
+      background: rgba(227,51,31,0.25);
+      pointer-events: none;
+    }
+
+    .exhibition-year-group {
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .exhibition-year-header {
+      width: 100%;
+      height: 4.5rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .exhibition-year {
+      font-family: 'CooperHewitt-Semibold', sans-serif;
+      font-size: 4.5rem;
+      color: #E3331F;
+      line-height: 0.75;
+      transform: translateY(16px); 
+      cursor: default;
+      transition: color 0.3s ease, letter-spacing 0.3s ease, transform 0.3s ease;
+      white-space: nowrap;
+    }
+    
+    .exhibition-year:hover {
+      letter-spacing: 3px;
+      color: #b32515;
+      transform: translateY(0);
+    }
+    
+    .exhibition-list-items {
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px; 
+      overflow: hidden;
+    }
+    
+    .exhibition-item-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.8rem 5px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    
+    .exhibition-item-box:last-child {
+      border-bottom: none;
+    }
+    
+    .exhibition-title-link {
+      font-family: 'CooperHewitt-Semibold', sans-serif;
+      font-size: 13px;
+      color: rgba(0,0,0,0.8);
+      text-decoration: none;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: color 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    
+    .exhibition-title-link:hover {
+      color: #E3331F;
+      text-decoration: none;
+    }
+    
+    .exhibition-location-text {
+      font-family: 'CooperHewitt', sans-serif;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      .exhibition-year-group { width: 280px; }
+      .exhibition-year { font-size: 3.5rem; transform: translateY(12px); }
+      .exhibition-year-header { height: 4rem; }
+      .exhibition-year-row::after { top: 4rem; left: -20px; right: -20px; }
+      .exhibition-title-link { font-size: 12px; }
+      .exhibition-location-text { font-size: 10px; }
+      #exhibition-scroll { padding: 0 20px; }
+    }
 
     /* ── SECTION 6: INFO ── */
     #info {
@@ -445,22 +587,23 @@
       padding: 0.3rem 0.8rem; cursor: pointer; transition: all 0.18s; outline: none;
     }
     #btn-back:hover { border-color: #E3331F; color: #E3331F; }
-    #lang-switcher { position: relative; margin-left: 8px; }
-    #lang-btn {
+    .lang-container { position: relative; display: inline-block; }
+    #lang-switcher { margin-left: 8px; }
+    .lang-btn {
       font-family: 'CooperHewitt', sans-serif; font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase;
       border: 1px solid rgba(0,0,0,0.18); background: rgba(255,255,255,0.9); color: rgba(0,0,0,0.4);
       padding: 0.3rem 0.75rem; cursor: pointer; transition: all 0.18s; outline: none;
     }
-    #lang-btn:hover { border-color: #E3331F; color: #E3331F; }
-    #lang-dropdown {
-      display: none; position: absolute; top: 100%; left: 0; background: #fff;
+    .lang-btn:hover { border-color: #E3331F; color: #E3331F; }
+    .lang-dropdown {
+      display: none; position: absolute; top: 100%; right: 0; background: #fff;
       border: 1px solid rgba(0,0,0,0.12); z-index: 100; min-width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
-    #lang-dropdown.active { display: block; }
+    .lang-dropdown.active { display: block; }
     .lang-option {
       font-family: 'CooperHewitt', sans-serif; font-size: 0.48rem; letter-spacing: 0.12em; text-transform: uppercase;
       padding: 0.4rem 0.75rem; cursor: pointer; color: rgba(0,0,0,0.5); transition: all 0.15s;
-      background: none; border: none; width: 100%; text-align: left; display: block;
+      background: none; border: none; width: 100%; text-align: left; display: block; white-space: nowrap;
     }
     .lang-option:hover { color: #E3331F; background: rgba(227,51,31,0.04); }
     .lang-option.active-lang { color: #E3331F; }
@@ -579,7 +722,7 @@
       #detail-description { font-size: 12px; }
       #detail-meta { gap: 16px; }
       #detail-topbar { padding: 0 12px; gap: 6px; height: 50px; }
-      #btn-back, .btn-nav, #lang-btn { font-size: 0.4rem; padding: 0.25rem 0.5rem; }
+      #btn-back, .btn-nav, .lang-btn { font-size: 0.4rem; padding: 0.25rem 0.5rem; }
       #detail-counter { font-size: 0.38rem; }
       #detail-body { top: 50px; }
 
@@ -628,10 +771,21 @@
   <!-- APP SECTIONS CONTAINER -->
   <div id="app-wrapper">
 
-    <!-- SECTION 1: HOMEPAGE -->
-    <section id="homepage" class="page-section">
+    <!-- SECTION 1: HOMEPAGE (3D Canvas + Menu) -->
+    <section id="homepage" class="page-section" style="padding-top:0;">
       <canvas id="bg-canvas"></canvas>
       <canvas id="c"></canvas>
+      
+      <div class="lang-container" style="position: absolute; top: 24px; right: 24px; z-index: 100;">
+        <button class="lang-btn" aria-label="Select Language">EN</button>
+        <div class="lang-dropdown">
+          <button class="lang-option active-lang" data-lang="en">English</button>
+          <button class="lang-option" data-lang="id">Indonesia</button>
+          <button class="lang-option" data-lang="jw">Jawa</button>
+        </div>
+      </div>
+
+      <div id="loading" data-translate="loading">Loading…</div>
 
       <div id="title-block">
         <span id="title">MUZEIAN</span>
@@ -669,8 +823,8 @@
     <section id="artwork" class="page-section">
       <div id="col-artwork">
         <button id="toggle-sidebar">☰</button>
-        <div id="sidebar-hint" style="position: absolute; top: 31px; left: 65px; font-family: 'CooperHewitt', sans-serif; font-size: 9px; letter-spacing: 0.2em; color: rgba(0,0,0,0.4); z-index: 101; pointer-events: none; text-transform: uppercase; transition: opacity 0.3s;">List Karya</div>
-        <button class="btn-back-home" onclick="scrollToSection('homepage')">← Home</button>
+        <div id="sidebar-hint" style="position: absolute; top: 31px; left: 65px; font-family: 'CooperHewitt', sans-serif; font-size: 9px; letter-spacing: 0.2em; color: rgba(0,0,0,0.4); z-index: 101; pointer-events: none; text-transform: uppercase; transition: opacity 0.3s;"></div>
+        <button class="btn-back-home" onclick="navigateBack()">← Back</button>
         <div id="sidebar">
           <div id="sidebar-heading">Artworks</div>
           <ul id="karya-list"></ul>
@@ -685,14 +839,14 @@
 
     <!-- SECTION 3: WORKSHOP -->
     <section id="workshop" class="page-section">
-      <button class="btn-back-home" onclick="scrollToSection('homepage')">← Home</button>
+      <button class="btn-back-home" onclick="navigateBack()">← Back</button>
       <div id="main-title-section">WORKSHOP</div>
       <div id="grid-container"></div>
     </section>
 
     <!-- SECTION 4: RESIDENCY -->
     <section id="residency" class="page-section">
-      <button class="btn-back-home" onclick="scrollToSection('homepage')">← Home</button>
+      <button class="btn-back-home" onclick="navigateBack()">← Back</button>
       <div id="main-title-section">RESIDENCY / INCUBATION</div>
       <div id="strip-wrap">
         <button class="strip-arrow" id="arrow-left" aria-label="Scroll left">&#8249;</button>
@@ -705,7 +859,7 @@
 
     <!-- SECTION 5: PROJECT -->
     <section id="project" class="page-section">
-      <button class="btn-back-home" onclick="scrollToSection('homepage')">← Home</button>
+      <button class="btn-back-home" onclick="navigateBack()">← Back</button>
       <div id="main-title-section">PROJECT</div>
       <div id="project-container">
         
@@ -736,10 +890,170 @@
       </div>
     </section>
 
+    <!-- SECTION 5.5: EXHIBITION -->
+    <section id="exhibition" class="page-section">
+      <button class="btn-back-home" onclick="navigateBack()">← Back</button>
+      <div id="main-title-section">EXHIBITION</div>
+      <div id="exhibition-wrap">
+        <button class="strip-arrow" id="exhibition-arrow-left" aria-label="Scroll left">&#8249;</button>
+        <div id="exhibition-scroll">
+          <div class="exhibition-board-container">
+            <div class="exhibition-year-row">
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2026</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/wali-x" class="exhibition-title-link">Surabaya Art Prize</a>
+                            <div class="exhibition-location-text" title="Orasis Art Space, Surabaya">Orasis Art Space, Surabaya</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/amprrrong-bytebeat" class="exhibition-title-link">Mukadimah</a>
+                            <div class="exhibition-location-text" title="Artmeru, Malang">Artmeru, Malang</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/blot" class="exhibition-title-link">The Right to Slow Down</a>
+                            <div class="exhibition-location-text" title="Artchemist × Tujujati, Surabaya">Artchemist × Tujujati, Surabaya</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2024</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/pkl" class="exhibition-title-link">Bebunyian Sound Art Festival</a>
+                            <div class="exhibition-location-text" title="Korean Cultural Center × Baseline Studio, Surabaya">Korean Cultural Center × Baseline Studio, Surabaya</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/anti-idol" class="exhibition-title-link">Anti Idol</a>
+                            <div class="exhibition-location-text" title="Amprrrong Showcase">Amprrrong Showcase, Surabaya</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2022</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/penduso-table-game" class="exhibition-title-link">Lidos Toys Fest</a>
+                            <div class="exhibition-location-text" title="Malang Creative Center, Malang">Malang Creative Center, Malang</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2020</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/kydunk-cyberpunk" class="exhibition-title-link">SUMONAR Festival 2020</a>
+                            <div class="exhibition-location-text" title="Mantra Lumina">sumonarfest.com</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2018</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/sarung" class="exhibition-title-link">Dendang Calon Guru, 8 Kota</a>
+                            <div class="exhibition-location-text" title="Universitas Negeri Yogyakarta, Yogyakarta">Universitas Negeri Yogyakarta, Yogyakarta</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/komposisi-hewani" class="exhibition-title-link">Art Edu Care</a>
+                            <div class="exhibition-location-text" title="Universitas Sebelas Maret, Surakarta (Solo)">Universitas Sebelas Maret, Surakarta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="exhibition-year-row">
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2025</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/sukatani-matches" class="exhibition-title-link">Habis Gelap Terbitlah Gelap</a>
+                            <div class="exhibition-location-text" title="LIB, Yogyakarta">LIB, Yogyakarta</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/cethik-geni" class="exhibition-title-link">Media X Space: Beyond Illumination</a>
+                            <div class="exhibition-location-text" title="CG Artspace, Jakarta">CG Artspace, Jakarta</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/mtn-lab" class="exhibition-title-link">MTN Lab</a>
+                            <div class="exhibition-location-text" title="Gresik">Gresik</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/pov-jatim" class="exhibition-title-link">Finna Art of The Year 2025</a>
+                            <div class="exhibition-location-text" title="Orasis Art Space, Surabaya">Orasis Art Space, Surabaya</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2023</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/oprex-budoyo" class="exhibition-title-link">Jogja Biennale</a>
+                            <div class="exhibition-location-text" title="Asana Bina Seni (Se)tempat, Yogyakarta">Asana Bina Seni (Se)tempat, Yogyakarta</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/kabesha" class="exhibition-title-link">7an</a>
+                            <div class="exhibition-location-text" title="n0lkecil, Surabaya">n0lkecil, Surabaya</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/bengox" class="exhibition-title-link">Pestapora 2023</a>
+                            <div class="exhibition-location-text" title="Jakarta">Jakarta</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2021</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/singup" class="exhibition-title-link">Nendes Kombet</a>
+                            <div class="exhibition-location-text" title="Pasar Bareng, Malang">Pasar Bareng, Malang</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2019</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/river-view-simulation" class="exhibition-title-link">Brantastude: Research</a>
+                            <div class="exhibition-location-text" title="Kolekjos, Malang">Kolekjos, Malang</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/private-public-data" class="exhibition-title-link">Five Passages to The Future</a>
+                            <div class="exhibition-location-text" title="Arcolabs, Galeri Nasional, Jakarta">Arcolabs, Galeri Nasional, Jakarta</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/oxymeter-fog" class="exhibition-title-link">Unearthing The Unknown</a>
+                            <div class="exhibition-location-text" title="IFI, Yogyakarta">IFI, Yogyakarta</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/klinik-alternatip" class="exhibition-title-link">Pekan Seni Media 2019</a>
+                            <div class="exhibition-location-text" title="Sinkronik, Kemdikbud, Samarinda">Sinkronik, Kemdikbud, Samarinda</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exhibition-year-group">
+                    <div class="exhibition-year-header"><div class="exhibition-year">2017</div></div>
+                    <div class="exhibition-list-items">
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/proyek-rekapitulasi-senyum" class="exhibition-title-link">Abnormal Project Annual #2</a>
+                            <div class="exhibition-location-text" title="Universitas Negeri Malang, Malang">Universitas Negeri Malang, Malang</div>
+                        </div>
+                        <div class="exhibition-item-box">
+                            <a href="#artwork/communication-breakdown" class="exhibition-title-link">NOVART, Art Techno</a>
+                            <div class="exhibition-location-text" title="Universitas Negeri Malang, Malang">Universitas Negeri Malang, Malang</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <button class="strip-arrow" id="exhibition-arrow-right" aria-label="Scroll right">&#8250;</button>
+      </div>
+    </section>
+
     <!-- SECTION 6: INFO -->
     <section id="info" class="page-section">
       <div id="info-wrapper">
-        <button class="btn-back-home" onclick="scrollToSection('homepage')">← Home</button>
+        <button class="btn-back-home" onclick="navigateBack()">← Back</button>
         <div id="main-title-section" style="padding-top:0;">INFO</div>
 
         <div id="info-layout">
@@ -785,9 +1099,9 @@
 
     <div id="detail-topbar" style="display:none;">
       <button id="btn-back" data-translate="back">← Back</button>
-      <div id="lang-switcher">
-        <button id="lang-btn">EN</button>
-        <div id="lang-dropdown">
+      <div id="lang-switcher" class="lang-container">
+        <button class="lang-btn">EN</button>
+        <div class="lang-dropdown">
           <button class="lang-option active-lang" data-lang="en">English</button>
           <button class="lang-option" data-lang="id">Indonesia</button>
           <button class="lang-option" data-lang="jw">Jawa</button>
@@ -902,8 +1216,9 @@
         if (strings[key]) el.textContent = strings[key];
       });
       // Update dropdown buttons state
-      const langBtn = document.getElementById('lang-btn');
-      if (langBtn) langBtn.textContent = currentLang.toUpperCase();
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.textContent = currentLang.toUpperCase();
+      });
       document.querySelectorAll('.lang-option').forEach(opt => {
         opt.classList.toggle('active-lang', opt.dataset.lang === currentLang);
       });
@@ -974,6 +1289,7 @@
         initArtworkSection();
         initWorkshopGrid();
         initResidencyStrip();
+        initExhibitionStrip();
         loadNewsData();
 
         // Process URL Routing after data is loaded
@@ -986,7 +1302,7 @@
     /* ══════════════════════════════════════
        HOMEPAGE — 3D INTERACTIVE CANVAS & AUDIO
        ══════════════════════════════════════ */
-    const MENU = ['ARTWORK', 'WORKSHOP', 'RESIDENCY', 'PROJECT', 'INFO', 'NEWS', 'CONTACT'];
+    const MENU = ['ARTWORK', 'WORKSHOP', 'RESIDENCY', 'PROJECT', 'EXHIBITION', 'INFO', 'CONTACT'];
     const canvas = document.getElementById('c');
     const ctx = canvas.getContext('2d');
     const bgCvs = document.getElementById('bg-canvas');
@@ -1146,8 +1462,8 @@
             'WORKSHOP': 'workshop',
             'RESIDENCY': 'residency',
             'PROJECT': 'project',
+            'EXHIBITION': 'exhibition',
             'INFO': 'info',
-            'NEWS': 'info',
             'CONTACT': 'info'
           };
           const targetSection = sectionMap[TIP_MENU[hoverTip]];
@@ -1804,6 +2120,30 @@
       updateArrows();
     }
 
+    function initExhibitionStrip() {
+      const exhScroll = document.getElementById('exhibition-scroll');
+      const exhArrowLeft = document.getElementById('exhibition-arrow-left');
+      const exhArrowRight = document.getElementById('exhibition-arrow-right');
+
+      const maxScroll = () => exhScroll.scrollWidth - exhScroll.clientWidth;
+
+      function updateExhArrows() {
+        exhArrowLeft.disabled = exhScroll.scrollLeft <= 0;
+        exhArrowRight.disabled = exhScroll.scrollLeft >= maxScroll() - 1;
+      }
+      const EXH_SCROLL_STEP = () => exhScroll.clientWidth * 0.75;
+      exhArrowLeft.addEventListener('click', () => {
+        exhScroll.scrollBy({ left: -EXH_SCROLL_STEP(), behavior: 'smooth' });
+      });
+      exhArrowRight.addEventListener('click', () => {
+        const remaining = maxScroll() - exhScroll.scrollLeft;
+        const step = Math.min(EXH_SCROLL_STEP(), remaining);
+        exhScroll.scrollBy({ left: step, behavior: 'smooth' });
+      });
+      exhScroll.addEventListener('scroll', updateExhArrows);
+      updateExhArrows();
+    }
+
     /* Helper function to scan photos folder or fall back */
     const photoFolderCache = {};
     async function scanPhotoFolder(folderPath) {
@@ -1931,7 +2271,7 @@
       document.body.style.overflow = '';
 
       // Reset URL to the section hash
-      window.history.pushState(null, null, `#${activeType}`);
+      window.history.replaceState(null, null, `#${currentSection}`);
 
       detailDrawer.classList.remove('open');
       detailTopbar.style.display = 'none';
@@ -2126,17 +2466,23 @@
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (!btnPrev.disabled) btnPrev.click(); }
     });
 
-    /* Language selector trigger */
-    const langBtn = document.getElementById('lang-btn');
-    const langDropdown = document.getElementById('lang-dropdown');
-    langBtn.addEventListener('click', e => { e.stopPropagation(); langDropdown.classList.toggle('active'); });
-    document.addEventListener('click', () => langDropdown.classList.remove('active'));
+    /* Language selector triggers */
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const dropdown = btn.nextElementSibling;
+        dropdown.classList.toggle('active');
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.lang-dropdown').forEach(d => d.classList.remove('active'));
+    });
     document.querySelectorAll('.lang-option').forEach(opt => {
       opt.addEventListener('click', e => {
         e.stopPropagation();
         currentLang = opt.dataset.lang;
         localStorage.setItem('muzeian-lang', currentLang);
-        langDropdown.classList.remove('active');
+        document.querySelectorAll('.lang-dropdown').forEach(d => d.classList.remove('active'));
         updateUIStrings();
         translateCurrentDetail();
       });
@@ -2229,10 +2575,12 @@
     /* ══════════════════════════════════════
        ROUTING AND SCROLL MECHANICS
        ══════════════════════════════════════ */
+    let siteHistory = [];
+    let currentSection = window.location.hash ? window.location.hash.substring(1).split('/')[0] : 'homepage';
     let isScrollingToSection = false;
 
     // Smooth scroll navigation trigger
-    function scrollToSection(id) {
+    function scrollToSection(id, pushToHistory = true) {
       const el = document.getElementById(id);
       if (el) {
         isScrollingToSection = true;
@@ -2242,12 +2590,15 @@
           closeGlobalDetail();
         }
 
+        if (pushToHistory && currentSection !== id) {
+           siteHistory.push(currentSection);
+        }
+        currentSection = id;
+
         window.scrollTo({
           top: el.offsetTop,
           behavior: 'smooth'
         });
-
-
 
         // Update hash in address bar after scrolling finishes
         setTimeout(() => {
@@ -2257,7 +2608,14 @@
       }
     }
 
-
+    function navigateBack() {
+      if (siteHistory.length > 0) {
+        const prev = siteHistory.pop();
+        scrollToSection(prev, false);
+      } else {
+        scrollToSection('homepage', false);
+      }
+    }
 
     // Hash parser for deep-linking
     async function handleRouting() {
@@ -2277,29 +2635,20 @@
         // Deep link content detail
         if (type === 'artwork' && karyaData.length > 0) {
           const idx = karyaData.findIndex(k => k.slug === slug);
-          if (idx !== -1) {
-            scrollToSection('artwork');
-            openGlobalDetail('artwork', idx);
-          }
+          if (idx !== -1) openGlobalDetail('artwork', idx);
         } else if (type === 'workshop' && workshopData.length > 0) {
           const idx = workshopData.findIndex(w => w.slug === slug);
-          if (idx !== -1) {
-            scrollToSection('workshop');
-            openGlobalDetail('workshop', idx);
-          }
+          if (idx !== -1) openGlobalDetail('workshop', idx);
         } else if (type === 'residency' && residencyData.length > 0) {
           const idx = residencyData.findIndex(r => r.slug === slug);
-          if (idx !== -1) {
-            scrollToSection('residency');
-            openGlobalDetail('residency', idx);
-          }
+          if (idx !== -1) openGlobalDetail('residency', idx);
         }
       } else {
         // Section link only
         const sectionId = parts[0];
-        const allowedSections = ['homepage', 'artwork', 'workshop', 'residency', 'project', 'info'];
+        const allowedSections = ['homepage', 'artwork', 'workshop', 'residency', 'project', 'exhibition', 'info'];
         if (allowedSections.includes(sectionId)) {
-          scrollToSection(sectionId);
+          scrollToSection(sectionId, false);
         }
       }
     }
@@ -2316,6 +2665,11 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const sectionId = entry.target.id;
+          
+          if (currentSection !== sectionId) {
+             siteHistory.push(currentSection);
+             currentSection = sectionId;
+          }
 
           // Update URL hash without causing a page jump
           window.history.replaceState(null, null, '#' + sectionId);
@@ -2328,13 +2682,22 @@
     });
 
     window.addEventListener('hashchange', () => {
-      // Allow detail drawer deep links to change on hash change
       const hash = window.location.hash.substring(1);
       const parts = hash.split('/');
       if (parts.length === 2) {
         handleRouting();
+      } else if (hash) {
+        const allowedSections = ['homepage', 'artwork', 'workshop', 'residency', 'project', 'exhibition', 'info'];
+        if (allowedSections.includes(hash)) {
+          if (hash !== currentSection) {
+            scrollToSection(hash, true);
+          } else if (isDetailOpen) {
+            closeGlobalDetail();
+          }
+        }
       } else if (!window.location.hash) {
         if (isDetailOpen) closeGlobalDetail();
+        else scrollToSection('homepage', false);
       }
     });
 
